@@ -20,7 +20,7 @@ if __name__ in '__main__':
     needed_vacancies = []
     for vacancy in vacancies_all:
         vacancy_text = vacancy.find(('div'), class_ = 'g-user-content').text
-        if ('Django' or 'Flask') in vacancy_text:
+        if ('django' or 'flask') in vacancy_text.lower():
             needed_vacancies.append(vacancy)
 
     # print(needed_vacancies)
