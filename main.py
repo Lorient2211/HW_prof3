@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import json
 from fake_headers import Headers
-
+from pprint import pprint
 
 
 
@@ -26,24 +26,22 @@ if __name__ in '__main__':
     # print(needed_vacancies)
 
 
-    data = {}
-    data['link'] = []
-    data['salary'] = []
-    data['company'] = []
-    data['town'] = []
+    data ={}
+    data['vacancy'] = []
     for vacancy in needed_vacancies:
-        data['link'].append(vacancy.find('a', class_ = 'serp-item__title')['href'])
-        data['salary'].append(vacancy.find('span', class_='bloko-header-section-3').text.replace(u"\u202F", " "))
-        data['company'].append(vacancy.find('div', class_='vacancy-serp-item__meta-info-company').find('a').text)
         for town in vacancy:
             x = vacancy.find_all('div', class_='bloko-text')
-        data['town'].append(x[1].text)
-
+        data['vacancy'].append({
+            'link': vacancy.find('a', class_ = 'serp-item__title')['href'],
+            'salary': vacancy.find('span', class_='bloko-header-section-3').text.replace(u"\u202F", " "),
+            'company': vacancy.find('div', class_='vacancy-serp-item__meta-info-company').find('a').text,
+            'town':x[1].text
+            })
 
     with open('data.txt', 'w', encoding='utf-8') as outfile:
         json.dump(data, outfile)
 
     with open('data.txt') as json_file:
         data = json.load(json_file)
-        print(data)
+        pprint(data)
 
